@@ -1,0 +1,430 @@
+/* ═══════════════════════════════════════════════
+   REVIEWS PAGE — Notice Board
+   Palette: #0A0A0A (stage) · #FAF9F6 (voice) · #8C8882 (feeling)
+═══════════════════════════════════════════════ */
+
+/* ── Cinematic storytelling atmosphere ──
+   A single warm projector beam from top-center,
+   theater-wing vignettes at the sides, and
+   film grain over everything — like a documentary
+   opening shot held on the audience's words. */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* Theater wings — edges fall into darkness */
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.32) 0%,
+      transparent         20%,
+      transparent         80%,
+      rgba(0, 0, 0, 0.32) 100%
+    ),
+    /* Projector cone — warm beam from above center */
+    conic-gradient(
+      from 270deg at 50% -10%,
+      transparent              0deg,
+      rgba(255, 255, 255, 0.00)  6deg,
+      rgba(255, 251, 235, 0.08) 14deg,
+      rgba(255, 248, 220, 0.18) 22deg,
+      rgba(255, 251, 235, 0.08) 30deg,
+      rgba(255, 255, 255, 0.00) 42deg,
+      transparent               56deg,
+      transparent              360deg
+    ),
+    /* Key light — warm amber ellipse at top center */
+    radial-gradient(
+      ellipse 55% 44% at 50% 0%,
+      rgba(255, 248, 225, 0.17) 0%,
+      rgba(255, 245, 210, 0.07) 48%,
+      transparent               72%
+    ),
+    /* Wide ambient warmth — fills the upper stage */
+    radial-gradient(
+      ellipse 130% 70% at 50% -20%,
+      rgba(255, 244, 198, 0.06) 0%,
+      transparent               58%
+    ),
+    /* Stage floor depth — grounds the bottom */
+    radial-gradient(
+      ellipse 110% 38% at 50% 100%,
+      rgba(0, 0, 0, 0.22) 0%,
+      transparent          55%
+    );
+}
+
+/* Film grain — 35mm texture over the warm light */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Page content floats above the fixed atmosphere */
+body > * { position: relative; z-index: 1; }
+
+/* ── Page hero — cinematic opening shot ── */
+.page-hero {
+  position: relative;
+  padding-bottom: 120px;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0.50) 0%,
+      rgba(10, 10, 10, 0.78) 55%,
+      rgba(10, 10, 10, 0.97) 100%
+    ),
+    url('assets/Hero section for Review.webp');
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+}
+
+/* em underline draws on page load — same signature DMS motion */
+.page-hero-title em {
+  position: relative;
+  display: inline;
+}
+.page-hero-title em::after {
+  content: '';
+  position: absolute;
+  bottom: 0.06em;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-ash);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: rev-underline-draw 0.75s cubic-bezier(0.25, 0, 0, 1) 0.65s forwards;
+}
+
+@keyframes rev-underline-draw {
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-hero-title em::after { animation: none; transform: scaleX(1); }
+}
+
+.rev-board-section {
+  background-image: none;
+  background-color: transparent;
+}
+
+/* ─────────────────────────────────────────────
+   ALUMINIUM FRAME
+───────────────────────────────────────────────*/
+.rev-board-frame {
+  /* Brushed aluminium gradient — light top-left, darker bottom-right */
+  background: linear-gradient(
+    155deg,
+    #D4D2CF 0%,
+    #B6B4B1 28%,
+    #C8C6C3 52%,
+    #A4A2A0 76%,
+    #BEBCB9 100%
+  );
+  padding: 14px;
+  border-radius: 5px;
+
+  /* Frame edge bevels */
+  box-shadow:
+    0 14px 55px rgba(0, 0, 0, 0.65),
+    0  4px 18px rgba(0, 0, 0, 0.40),
+    inset 0  1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0,   0,   0,   0.25),
+    inset  1px 0 0 rgba(255, 255, 255, 0.30),
+    inset -1px 0 0 rgba(0,   0,   0,   0.18);
+}
+
+/* ─────────────────────────────────────────────
+   FELT SURFACE — ash (#8C8882) with fabric grain
+───────────────────────────────────────────────*/
+.rev-board {
+  /* Ash is the perfect colour match for grey felt */
+  background-color: #8C8882;
+
+  /* Desaturated fractal noise = fabric/felt weave */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23f)' opacity='0.09'/%3E%3C/svg%3E"),
+    /* Edge vignette — felt is slightly darker at edges */
+    radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.18) 100%);
+
+  border-radius: 2px;
+
+  /* Slight inner shadow to push the surface back from the frame */
+  box-shadow:
+    inset 0 0 20px rgba(0, 0, 0, 0.25),
+    inset 0 1px 3px rgba(0, 0, 0, 0.20);
+
+  padding: 3.5rem 3rem;
+  position: relative;
+}
+
+/* ─────────────────────────────────────────────
+   NOTES GRID
+───────────────────────────────────────────────*/
+.rev-notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* ─────────────────────────────────────────────
+   INDIVIDUAL NOTE — cream-white voice
+───────────────────────────────────────────────*/
+.rev-note {
+  position: relative;
+  margin-top: 14px;
+
+  background: #FAF9F6;
+  border: 1px solid rgba(10, 10, 10, 0.07);
+  border-radius: 2px;
+
+  padding: 2rem 1.75rem 1.75rem;
+
+  /* Deep shadow: cream lifting off the near-black stage */
+  box-shadow:
+    4px  8px 36px rgba(0, 0, 0, 0.55),
+    0    2px  6px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(10, 10, 10, 0.06);
+
+  transform-origin: top center;
+  transition:
+    transform  0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.28s ease;
+}
+
+/* Per-note rotations */
+.rev-note--1 { transform: rotate(-1.8deg); }
+.rev-note--2 { transform: rotate( 1.2deg); }
+.rev-note--3 { transform: rotate(-0.7deg); }
+
+/* Lift on hover */
+.rev-note:hover {
+  transform: rotate(0deg) translateY(-7px);
+  box-shadow:
+    6px 16px 48px rgba(0, 0, 0, 0.65),
+    0   3px 10px rgba(0, 0, 0, 0.40);
+}
+
+/* Faint ruled lines — near-black on cream */
+.rev-note::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(10, 10, 10, 0.055) 27px,
+    rgba(10, 10, 10, 0.055) 28px
+  );
+  background-position: 0 3.5rem;
+  pointer-events: none;
+}
+
+/* Left margin line — ash accent */
+.rev-note::after {
+  content: '';
+  position: absolute;
+  top: 3.5rem;
+  bottom: 1.75rem;
+  left: 3rem;
+  width: 1px;
+  background: rgba(140, 136, 130, 0.30);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   PUSHPIN
+───────────────────────────────────────────────*/
+.rev-pin {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  z-index: 5;
+
+  box-shadow:
+    0  3px 10px rgba(0, 0, 0, 0.55),
+    inset 0 1px 3px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.30);
+}
+
+/* Pin needle — ash */
+.rev-pin::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5px;
+  height: 12px;
+  background: linear-gradient(to bottom, #8C8882 0%, #5a5955 100%);
+  border-radius: 0 0 3px 3px;
+}
+
+/* Pins use only the 3 brand colours */
+.rev-pin--red  { background: radial-gradient(circle at 38% 35%, #FAF9F6, #d8d6d2); } /* cream */
+.rev-pin--blue { background: radial-gradient(circle at 38% 35%, #a8a49f, #8C8882); } /* ash   */
+.rev-pin--gold { background: radial-gradient(circle at 38% 35%, #FAF9F6, #d8d6d2); } /* cream */
+
+/* ─────────────────────────────────────────────
+   NOTE CONTENT — ink on paper
+───────────────────────────────────────────────*/
+.rev-quote {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.85;
+  color: #0A0A0A;
+  margin-bottom: 1.5rem;
+  quotes: none;
+  position: relative;
+  z-index: 1;
+  padding-left: 1rem;
+}
+
+
+/* Watermark quote mark — ash */
+.rev-quote:not(.rev-quote--placeholder)::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.75rem;
+  left: -0.6rem;
+  font-size: 4rem;
+  line-height: 1;
+  color: rgba(140, 136, 130, 0.15);
+  font-family: Georgia, serif;
+  font-style: normal;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   AUTHOR ROW
+───────────────────────────────────────────────*/
+.rev-author {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(10, 10, 10, 0.10);
+  position: relative;
+  z-index: 1;
+}
+
+.rev-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(10, 10, 10, 0.06);
+}
+
+.rev-avatar--logo {
+  object-fit: contain;
+  padding: 4px;
+  background: rgba(10, 10, 10, 0.04);
+  border-radius: 5px;
+  border: 1px solid rgba(10, 10, 10, 0.08);
+}
+
+.rev-author-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.rev-name {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  color: #0A0A0A;
+  letter-spacing: 0.01em;
+}
+
+.rev-role {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.72rem;
+  color: #8C8882;
+  letter-spacing: 0.02em;
+}
+
+/* ─────────────────────────────────────────────
+   REVEAL — notes drop onto the board
+───────────────────────────────────────────────*/
+.rev-anim-ready .rev-note {
+  opacity: 0;
+  transform: translateY(-20px) rotate(var(--note-rot, 0deg));
+  filter: blur(8px);
+  transition:
+    opacity   0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
+    filter    0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
+}
+
+.rev-anim-ready .rev-note.is-revealed {
+  opacity: 1;
+  transform: translateY(0) rotate(var(--note-rot, 0deg));
+  filter: blur(0);
+}
+
+.rev-anim-ready .rev-note.is-revealed:hover {
+  transform: rotate(0deg) translateY(-7px);
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────*/
+@media (max-width: 900px) {
+  .rev-notes {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .rev-note--3 {
+    grid-column: 1 / -1;
+    max-width: 380px;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .rev-board {
+    padding: 2rem 1.25rem;
+  }
+  .rev-notes {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .rev-note--1,
+  .rev-note--2,
+  .rev-note--3 {
+    transform: none;
+    max-width: 100%;
+    justify-self: auto;
+  }
+  .rev-anim-ready .rev-note {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

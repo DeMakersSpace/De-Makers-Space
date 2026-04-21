@@ -1,0 +1,545 @@
+/* ═══════════════════════════════════════════════
+   PROCESS PAGE — Wove arc scrollytelling
+═══════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   COSMIC PARALLAX BACKGROUND
+   Fixed full-screen layer behind all content.
+   Stars are generated via JS (box-shadow trick).
+   Glow + earth use white to match DMS palette.
+───────────────────────────────────────────── */
+
+/* ── Stacking: lift page content above fixed cosmic layer ── */
+main         { position: relative; z-index: 1; }
+.site-footer { position: relative; z-index: 1; }
+
+/* ── Container ── */
+.proc-cosmic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Dark canvas — matches site --color-bg so existing opaque
+     sections look unchanged; transparent sections show stars  */
+  background: #0A0A0A;
+}
+
+/* ── Star layers
+   Each is a 1-3 px square/circle; box-shadow (set by JS)
+   projects hundreds of copies across the 2000 × 2000 field.
+   The ::after clone starts 2000 px below so the translateY
+   animation loops seamlessly.                               ── */
+.proc-cosmic-sm,
+.proc-cosmic-md,
+.proc-cosmic-lg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  border-radius: 50%;
+}
+
+.proc-cosmic-sm    { width: 1px; height: 1px; animation: cosmicStar  50s linear infinite; }
+.proc-cosmic-md    { width: 2px; height: 2px; animation: cosmicStar 100s linear infinite; }
+.proc-cosmic-lg    { width: 3px; height: 3px; animation: cosmicStar 150s linear infinite; }
+
+/* ::after clones — same box-shadow injected by JS */
+.proc-cosmic-sm::after,
+.proc-cosmic-md::after,
+.proc-cosmic-lg::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  background: transparent;
+  border-radius: 50%;
+}
+.proc-cosmic-sm::after { top: 2000px; width: 1px; height: 1px; }
+.proc-cosmic-md::after { top: 2000px; width: 2px; height: 2px; }
+.proc-cosmic-lg::after { top: 2000px; width: 3px; height: 3px; }
+
+/* ── Horizon ── */
+.proc-cosmic-horizon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  pointer-events: none;
+}
+
+/* White glow — radial gradient centred at the horizon line */
+.proc-cosmic-glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 260px;
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(140, 136, 130, 0.13) 0%,
+    rgba(140, 136, 130, 0.05) 38%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+/* ── Earth ── */
+.proc-cosmic-earth {
+  position: absolute;
+  /* Only ~90px of the sphere peeks above the viewport bottom */
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(650px, 85vw);
+  height: min(650px, 85vw);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    #181714 0%,
+    #111110 38%,
+    #080807 75%,
+    #030303 100%
+  );
+  /* Warm rim-light matching --color-ash glow */
+  box-shadow:
+    0 0 0 1px rgba(140, 136, 130, 0.08),
+    0 0 30px 8px rgba(140, 136, 130, 0.07),
+    0 0 80px 24px rgba(140, 136, 130, 0.03);
+  pointer-events: none;
+}
+
+/* ── Star animation — translates up by 2000 px then loops ── */
+@keyframes cosmicStar {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-2000px); }
+}
+
+/* ── Make the scrollytelling section transparent so stars show through ── */
+.proc-wove-outer { background: transparent !important; }
+
+
+/* ── Hero — journey illustration backdrop ── */
+.page-hero {
+  position: relative;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0.52) 0%,
+      rgba(10, 10, 10, 0.74) 55%,
+      rgba(10, 10, 10, 0.96) 100%
+    ),
+    url('assets/7%20Journey%20With%20Us.webp');
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+}
+
+/* ═══════════════════════════════════════════════
+   SHARED text (desktop + mobile)
+═══════════════════════════════════════════════ */
+.proc-wove-sub {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(232, 232, 232, 0.35);
+  margin-bottom: 0.35rem;
+}
+
+.proc-wove-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+
+.proc-wove-desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.975rem;
+  line-height: 1.8;
+  color: var(--color-muted);
+  max-width: 42ch;
+}
+
+/* ═══════════════════════════════════════════════
+   OUTER CONTAINER
+═══════════════════════════════════════════════ */
+.proc-wove-outer {
+  position: relative;
+  background: var(--color-bg);
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE: static numbered list (default / < 768px)
+═══════════════════════════════════════════════ */
+.proc-wove-sticky  { display: none; }
+
+.proc-wove-mobile {
+  padding: 4rem 1.75rem 5rem;
+}
+
+.proc-wove-mobile-hd {
+  margin-bottom: 2.75rem;
+}
+
+.proc-wove-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+.proc-wove-list-item {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.proc-wove-list-num {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.75rem;
+  color: rgba(232, 232, 232, 0.25);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 3ch;
+  padding-top: 0.1rem;
+}
+
+/* ═══════════════════════════════════════════════
+   DESKTOP: sticky wove arc (≥ 768px)
+═══════════════════════════════════════════════ */
+@media (min-width: 768px) {
+
+  .proc-wove-outer {
+    /* 7 steps × ~100 vh each + 100 vh buffer at each end */
+    height: 800vh;
+  }
+
+  .proc-wove-mobile { display: none; }
+
+  /* ── Sticky full-viewport panel ── */
+  .proc-wove-sticky {
+    display: block;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  /* ── Arc SVG — only the right half of a large circle is visible.
+        The SVG occupies the leftmost ~32 % of the viewport.
+        viewBox "0 0 100 200" lets us draw the full S-curve with
+        gentle proportions regardless of screen height.            ── */
+  .proc-wove-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Brushstroke layers ── */
+
+  /* Halo: very wide, very faint — the outer bleed of a loaded brush */
+  .proc-brush-halo {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.03);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Wide body: the thick paint mass — moderate opacity, roughened by filter */
+  .proc-brush-wide {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.07);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Mid pass: second coat, slightly narrower — layered paint depth */
+  .proc-brush-mid {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.10);
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Thin bristle line: the bright spine — crisp centre of the brushstroke */
+  .proc-brush-thin {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.24);
+    stroke-width: 0.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Dots injected by JS */
+  .proc-path-dot {
+    fill: rgba(255, 255, 255, 0.2);
+    transition: fill 0.4s ease, r 0.4s ease;
+  }
+
+  .proc-path-dot.is-active {
+    fill: #E8E8E8;
+  }
+
+  /* ── Meta label: "THE PROCESS  1 / 7" ── */
+  .proc-wove-meta {
+    position: absolute;
+    top: calc(var(--nav-h) + 2rem);
+    /* starts just right of the arc */
+    left: clamp(33%, 34vw, 38%);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 10;
+  }
+
+  .proc-wove-counter {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    color: rgba(232, 232, 232, 0.28);
+  }
+
+  #proc-step-num {
+    color: rgba(232, 232, 232, 0.65);
+    font-weight: 500;
+  }
+
+  /* ── Ghost numbers ── */
+  /* Both ghosts sit OVER the arc area so they feel like they're
+     orbiting along the curve, matching the reference image.    */
+  .proc-wove-ghost {
+    position: absolute;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: clamp(3.5rem, 7.5vw, 6rem);
+    color: rgba(232, 232, 232, 0.15);
+    line-height: 1;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  /* Previous step — upper-left, tilted back */
+  .proc-wove-ghost--above {
+    top: 12%;
+    left: 16%;
+    transform: rotate(-8deg);
+    opacity: 0;             /* hidden until step ≥ 2 */
+  }
+
+  /* Next step — lower-left, more aggressive tilt */
+  .proc-wove-ghost--below {
+    bottom: 11%;
+    left: 8%;
+    transform: rotate(-14deg);
+    opacity: 1;
+  }
+
+  .proc-wove-ghost.is-hidden {
+    opacity: 0 !important;
+  }
+
+  /* ── Active step stage: • 01 Title / Desc ──
+        Vertically centred on the earth sphere.
+        Earth center = bottom: 110px + radius 325px = 435px from
+        viewport bottom → calc(100vh - 435px) from top.
+        Right edge stops 25px inside the moon's right inner edge:
+        moon right = 50vw + 325px → right: calc(50vw - 300px).   */
+  .proc-wove-stage {
+    position: absolute;
+    top: calc(100svh - 435px);
+    left: clamp(33%, 34vw, 38%);
+    right: max(2rem, calc(50vw - 300px));
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.75rem);
+    z-index: 5;
+  }
+
+  /* Filled bullet — mirrors the active dot on the SVG path */
+  .proc-wove-dot-marker {
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 50%;
+    background: var(--color-text);
+    flex-shrink: 0;
+  }
+
+  /* Large step number e.g. "01" */
+  .proc-wove-hero-num {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: clamp(4.5rem, 10vw, 8.5rem);
+    color: var(--color-text);
+    line-height: 1;
+    flex-shrink: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Title + description block */
+  .proc-wove-text {
+    transition: opacity 0.25s ease;
+    min-width: 0;   /* allow flex item to shrink below natural width */
+  }
+
+  /* JS adds this class during cross-fade */
+  .proc-wove-hero-num.is-fading,
+  .proc-wove-text.is-fading {
+    opacity: 0;
+  }
+
+  /* ── Scroll hint ── */
+  .proc-scroll-hint {
+    position: absolute;
+    bottom: 2.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.18);
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  .proc-wove-outer.is-started .proc-scroll-hint {
+    opacity: 0;
+  }
+
+}
+
+
+/* ═══════════════════════════════════════════════
+   MOBILE REFINEMENTS (≤ 767px)
+   Enhances the static step list for small screens.
+   Desktop scrollytelling is already handled above.
+═══════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── Earth: scale to a subtle arc at the bottom ── */
+  .proc-cosmic-earth {
+    width: 300px;
+    height: 300px;
+    bottom: 40px;
+  }
+
+  /* ── Mobile list: tighter horizontal padding, extra bottom
+        so content never hides behind the fixed pill nav.    ── */
+  .proc-wove-mobile {
+    padding: 2.75rem 1.25rem 6rem;
+  }
+
+  .proc-wove-mobile-hd {
+    margin-bottom: 2rem;
+  }
+
+  /* ── Step list: add a vertical timeline thread ── */
+  .proc-wove-list {
+    position: relative;
+    gap: 0;
+  }
+
+  /* The thread runs behind the number column from top to bottom */
+  .proc-wove-list::before {
+    content: '';
+    position: absolute;
+    left: 1.3rem;     /* centers on the 2.6rem-wide number column */
+    top:  3rem;
+    bottom: 3rem;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      rgba(232, 232, 232, 0.07) 14%,
+      rgba(232, 232, 232, 0.07) 86%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  /* ── Each step: padding separates items; the thread passes through ── */
+  /* Initial hidden state — JS adds .is-visible via IntersectionObserver */
+  .proc-wove-list-item {
+    padding: 1.5rem 0;
+    gap: 1.25rem;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity  0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .proc-wove-list-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hairline divider between items */
+  .proc-wove-list-item + .proc-wove-list-item {
+    border-top: 1px solid rgba(232, 232, 232, 0.04);
+  }
+
+  /* ── Step number: smaller, centered as a node on the thread ── */
+  .proc-wove-list-num {
+    font-size: 1.1rem;
+    min-width: 2.6rem;
+    text-align: center;
+    flex-shrink: 0;
+    color: rgba(232, 232, 232, 0.22);
+    padding-top: 0.1rem;
+  }
+
+  /* ── Step body ── */
+  .proc-wove-list-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Remove max-width so description fills available column width */
+  .proc-wove-desc {
+    max-width: 100%;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+  }
+
+  /* Title: slightly tighter on narrow viewports */
+  .proc-wove-title {
+    font-size: clamp(1.15rem, 4.5vw, 1.5rem);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── Ally CTA card: tighter inner padding on small screens ── */
+  .dms-hcard-body {
+    padding: 2rem 1.5rem 2rem;
+  }
+
+  /* ── Hero image: shift focal point for portrait orientation ── */
+  .page-hero {
+    background-position: center 30%;
+  }
+}

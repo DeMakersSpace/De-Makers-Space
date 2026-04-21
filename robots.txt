@@ -1,0 +1,34 @@
+# robots.txt — De Makers Space
+# DOMAIN PLACEHOLDER: Replace "https://demakersspace.com" with your actual domain.
+
+# Allow all well-behaved crawlers full access
+User-agent: *
+Allow: /
+
+# Disallow internal tooling and dev files
+Disallow: /Generator/
+Disallow: /serve.mjs
+Disallow: /screenshot.mjs
+Disallow: /.vscode/
+Disallow: /.claude/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /node_modules/
+
+# Sitemap location
+Sitemap: https://demakersspace.com/sitemap.xml
+
+# Explicit rules for major crawlers (belt-and-suspenders)
+User-agent: Googlebot
+Allow: /
+Disallow: /Generator/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /Generator/
+
+User-agent: AhrefsBot
+Allow: /
+
+User-agent: Semrushbot
+Allow: /

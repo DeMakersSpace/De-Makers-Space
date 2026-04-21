@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════════════════════
+# _headers — Cloudflare Pages HTTP Security Headers
+# De Makers Space — demakersspace.com
+# ═══════════════════════════════════════════════════════════════
+# Cloudflare Pages reads this file automatically from the site root.
+# Each block: URL pattern (one per line) followed by indented headers.
+# More specific patterns override less specific ones on the same header.
+# ═══════════════════════════════════════════════════════════════
+
+# ── Security headers applied to ALL routes ──────────────────────
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), battery=(), gyroscope=(), accelerometer=(), autoplay=(), encrypted-media=(), fullscreen=(self), ambient-light-sensor=(), magnetometer=(), midi=(), picture-in-picture=(self), screen-wake-lock=(), xr-spatial-tracking=()
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests
+  Cache-Control: no-cache, must-revalidate
+
+# ── CSS — 1-day TTL (filenames are not content-hashed so skip immutable) ──
+/*.css
+  Cache-Control: public, max-age=86400
+
+# ── JavaScript — 1-day TTL ──────────────────────────────────────
+/*.js
+  Cache-Control: public, max-age=86400
+
+# ── Images and static assets — 30-day TTL ───────────────────────
+/assets/*
+  Cache-Control: public, max-age=2592000
+
+# ── security.txt — always fresh ─────────────────────────────────
+/.well-known/security.txt
+  Cache-Control: no-cache, must-revalidate
+  Content-Type: text/plain; charset=utf-8

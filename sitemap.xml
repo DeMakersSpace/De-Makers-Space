@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SITEMAP — De Makers Space
+  DOMAIN PLACEHOLDER: Replace "https://demakersspace.com" with your actual domain before deploying.
+  Last updated: 2026-04-18
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Home — highest priority, most frequently updated -->
+  <url>
+    <loc>https://demakersspace.com/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/" />
+  </url>
+
+  <!-- Reviews — high trust signal, update when new reviews added -->
+  <url>
+    <loc>https://demakersspace.com/reviews.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/reviews.html" />
+  </url>
+
+  <!-- Pricing — high commercial intent, high priority -->
+  <url>
+    <loc>https://demakersspace.com/pricing.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/pricing.html" />
+  </url>
+
+  <!-- Contact — primary conversion goal -->
+  <url>
+    <loc>https://demakersspace.com/contact.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/contact.html" />
+  </url>
+
+  <!-- Our Story — brand/about page -->
+  <url>
+    <loc>https://demakersspace.com/story.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/story.html" />
+  </url>
+
+  <!-- Why Us — services / differentiator page -->
+  <url>
+    <loc>https://demakersspace.com/why-us.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/why-us.html" />
+  </url>
+
+  <!-- Process — how we work page -->
+  <url>
+    <loc>https://demakersspace.com/process.html</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en-SG" href="https://demakersspace.com/process.html" />
+  </url>
+
+</urlset>
