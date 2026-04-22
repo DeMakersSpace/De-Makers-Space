@@ -279,10 +279,69 @@ body > * { position: relative; z-index: 1; }
   border-radius: 0 0 3px 3px;
 }
 
-/* Pins use only the 3 brand colours */
-.rev-pin--red  { background: radial-gradient(circle at 38% 35%, #FAF9F6, #d8d6d2); } /* cream */
-.rev-pin--blue { background: radial-gradient(circle at 38% 35%, #a8a49f, #8C8882); } /* ash   */
-.rev-pin--gold { background: radial-gradient(circle at 38% 35%, #FAF9F6, #d8d6d2); } /* cream */
+/* Pin colours — one per client story */
+.rev-pin--red  { background: radial-gradient(circle at 38% 35%, #f08a7a, #c0392b); } /* Kremi: cherry red       */
+.rev-pin--blue { background: radial-gradient(circle at 38% 35%, #f6c84c, #c9960e); } /* IveGotBakes: honey gold */
+.rev-pin--gold { background: radial-gradient(circle at 38% 35%, #c9a96e, #9e7a44); } /* Elevation: warm brass   */
+
+/* ─────────────────────────────────────────────
+   PER-NOTE STORY COLOURS — each client gets
+   their own paper tint and accent margin line
+───────────────────────────────────────────────*/
+
+/* Kremi — cherry blossom blush */
+.rev-note--1 {
+  background: #FEF5F3;
+  border-color: rgba(192, 57, 43, 0.10);
+  box-shadow:
+    4px  8px 36px rgba(192, 57, 43, 0.18),
+    0    2px  6px rgba(0, 0, 0, 0.22),
+    inset 0 -1px 0 rgba(192, 57, 43, 0.06);
+}
+.rev-note--1:hover {
+  box-shadow:
+    6px 16px 48px rgba(192, 57, 43, 0.24),
+    0   3px 10px rgba(0, 0, 0, 0.28);
+}
+.rev-note--1::after {
+  background: rgba(192, 57, 43, 0.18);
+}
+
+/* IveGotBakes — warm honey parchment */
+.rev-note--2 {
+  background: #FEF9EE;
+  border-color: rgba(201, 150, 14, 0.10);
+  box-shadow:
+    4px  8px 36px rgba(180, 130, 10, 0.18),
+    0    2px  6px rgba(0, 0, 0, 0.22),
+    inset 0 -1px 0 rgba(201, 150, 14, 0.06);
+}
+.rev-note--2:hover {
+  box-shadow:
+    6px 16px 48px rgba(180, 130, 10, 0.24),
+    0   3px 10px rgba(0, 0, 0, 0.28);
+}
+.rev-note--2::after {
+  background: rgba(201, 150, 14, 0.20);
+}
+
+/* Elevation Hair Studio — warm linen */
+.rev-note--3 {
+  background: #F8F3EC;
+  border-color: rgba(158, 122, 68, 0.10);
+  box-shadow:
+    4px  8px 36px rgba(130, 95, 40, 0.18),
+    0    2px  6px rgba(0, 0, 0, 0.22),
+    inset 0 -1px 0 rgba(158, 122, 68, 0.06);
+}
+.rev-note--3:hover {
+  box-shadow:
+    6px 16px 48px rgba(130, 95, 40, 0.24),
+    0   3px 10px rgba(0, 0, 0, 0.28);
+}
+.rev-note--3::after {
+  background: rgba(158, 122, 68, 0.22);
+}
 
 /* ─────────────────────────────────────────────
    NOTE CONTENT — ink on paper

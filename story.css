@@ -307,7 +307,16 @@
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--color-text);
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem;
+}
+.team-founding {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--color-ash);
+  max-width: 560px;
+  margin-bottom: 3.5rem;
 }
 .team-heading em {
   font-style: italic;
@@ -432,11 +441,11 @@
   color: var(--color-ash);
 }
 
-/* ── Touch devices — overlay always visible since hover won't fire ── */
+/* ── Touch devices — tap to reveal overlay ── */
 @media (hover: none) {
   .tc-overlay {
-    opacity: 1;
-    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.25) 100%);
+    opacity: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.30) 100%);
     padding: 1.5rem;
     justify-content: flex-end;
   }
@@ -444,16 +453,27 @@
     font-size: 0.8rem;
     line-height: 1.6;
   }
-  .tc-photo-wrap img {
-    filter: brightness(0.75);
+  .tc-slide.tc-active .tc-overlay {
+    opacity: 1;
   }
-  .tc-badge { opacity: 0; }
+  .tc-slide.tc-active .tc-photo-wrap img {
+    transform: scale(1.04);
+    filter: blur(3px) brightness(0.45);
+  }
+  .tc-slide.tc-active .tc-badge {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  .tc-photo-wrap {
+    cursor: pointer;
+  }
 }
 
 /* ── Mobile ── */
 @media (max-width: 639px) {
-  .team-section  { padding: 5rem 1.25rem; }
-  .team-heading  { margin-bottom: 2.5rem; }
+  .team-section   { padding: 5rem 1.25rem; }
+  .team-heading   { margin-bottom: 1rem; }
+  .team-founding  { font-size: 0.875rem; margin-bottom: 2.5rem; }
 }
 
 /* ═══════════════════════════════════════════════
