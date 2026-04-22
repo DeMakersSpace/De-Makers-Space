@@ -310,13 +310,15 @@
   margin-bottom: 1.5rem;
 }
 .team-founding {
-  font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  font-family: var(--font-heading);
+  font-style: italic;
   font-weight: 300;
-  line-height: 1.75;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  line-height: 1.6;
   color: var(--color-ash);
-  max-width: 560px;
+  max-width: 640px;
   margin-bottom: 3.5rem;
+  letter-spacing: 0.01em;
 }
 .team-heading em {
   font-style: italic;
@@ -375,12 +377,7 @@
   display: block;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
-.tc-slide:hover .tc-photo-wrap img {
-  transform: scale(1.04);
-  filter: blur(3px) brightness(0.45);
-}
-
-/* ── Description overlay (appears on hover) ── */
+/* ── Description overlay ── */
 .tc-overlay {
   position: absolute;
   inset: 0;
@@ -392,9 +389,6 @@
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
-}
-.tc-slide:hover .tc-overlay {
-  opacity: 1;
 }
 .tc-overlay p {
   font-family: var(--font-body);
@@ -420,9 +414,20 @@
   padding: 0.55rem 1.1rem;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.tc-slide:hover .tc-badge {
-  opacity: 0;
-  transform: translateY(6px);
+
+/* ── Hover effects — ONLY on devices that truly support hover ── */
+@media (hover: hover) {
+  .tc-slide:hover .tc-photo-wrap img {
+    transform: scale(1.04);
+    filter: blur(3px) brightness(0.45);
+  }
+  .tc-slide:hover .tc-overlay {
+    opacity: 1;
+  }
+  .tc-slide:hover .tc-badge {
+    opacity: 0;
+    transform: translateY(6px);
+  }
 }
 .tc-name {
   font-family: var(--font-heading);
@@ -473,7 +478,7 @@
 @media (max-width: 639px) {
   .team-section   { padding: 5rem 1.25rem; }
   .team-heading   { margin-bottom: 1rem; }
-  .team-founding  { font-size: 0.875rem; margin-bottom: 2.5rem; }
+  .team-founding  { font-size: 1rem; margin-bottom: 2.5rem; }
 }
 
 /* ═══════════════════════════════════════════════
