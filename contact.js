@@ -97,9 +97,12 @@ function initContactForm() {
     }
 
     /* POST to Web3Forms */
+    // TODO: If repo goes public, rotate this key at web3forms.com
+    const formData = new FormData(form);
+    formData.append('access_key', '4c4adc54-1a69-40eb-a6df-1fb542bb03ad');
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      body: new FormData(form),
+      body: formData,
     })
       .then(res => res.json())
       .then(json => {
